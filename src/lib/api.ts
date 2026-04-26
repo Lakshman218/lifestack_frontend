@@ -18,12 +18,15 @@ async function request<T>(path: string, init?: RequestInit, retry = true): Promi
     ...init,
   })
 
-  if (res.status === 401 && retry && !path.startsWith("/auth/")) {
+  if (res.status === 401 && retry && path !== "/auth/refresh") {
     const refreshed = await fetch(`${BASE_URL}/auth/refresh`, {
       method: "POST",
       credentials: "include",
     })
     if (refreshed.ok) return request<T>(path, init, false)
+    if (typeof window !== "undefined" && window.location.pathname !== "/") {
+      window.location.replace("/")
+    }
     throw new ApiError(401, "Unauthorized")
   }
 

@@ -47,6 +47,7 @@ interface AppContextType extends AppState {
   toggleTodo: (id: string) => Promise<void>
   updateTodo: (id: string, title: string) => Promise<void>
   deleteTodo: (id: string) => Promise<void>
+  deleteAllTodos: () => Promise<void>
 
   addRoutine: (title: string, time: string) => Promise<void>
   toggleRoutine: (id: string) => Promise<void>
@@ -124,6 +125,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const deleteTodo = async (id: string) => {
     await api.delete(`/todos/${id}`)
     setTodos((prev) => prev.filter((t) => t.id !== id))
+  }
+  const deleteAllTodos = async () => {
+    await api.delete("/todos")
+    setTodos([])
   }
 
   // Routines
@@ -207,6 +212,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         toggleTodo,
         updateTodo,
         deleteTodo,
+        deleteAllTodos,
         addRoutine,
         toggleRoutine,
         updateRoutine,

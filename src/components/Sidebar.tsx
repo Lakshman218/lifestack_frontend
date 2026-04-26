@@ -15,6 +15,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { ThemeToggle } from "@/src/components/ThemeToggle"
 
 const navItems = [
   { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -94,6 +95,7 @@ export function Sidebar() {
         <div className="p-3 border-t border-sidebar-border space-y-1">
           {sidebarCollapsed ? (
             <>
+              <ThemeToggle collapsed />
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
@@ -122,6 +124,7 @@ export function Sidebar() {
             </>
           ) : (
             <>
+              <ThemeToggle collapsed={false} />
               <button
                 type="button"
                 onClick={handleSignOut}
